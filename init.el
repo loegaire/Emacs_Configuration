@@ -349,6 +349,31 @@ sin(a)sin(b) = 1/2[cos(a - b) - cos(a + b)], sin(a)cos(b)=1/2[sin(a - b) + sin(a
       (define-key my-leader-keymap (kbd "P f") #'projectile-find-file)
       (define-key my-leader-keymap (kbd "P s") #'projectile-grep))))
 
+;; --- GitHub Copilot (inline suggestions) ---
+(use-package copilot
+  :ensure t
+  :hook (prog-mode . copilot-mode)
+  :custom
+  (copilot-idle-delay 0.2)
+  :bind
+  (:map copilot-completion-map
+        ("<tab>" . copilot-accept-completion)
+        ("TAB" . copilot-accept-completion)
+        ("C-<tab>" . copilot-accept-completion-by-word)
+        ("C-TAB" . copilot-accept-completion-by-word)))
+
+;; --- Copilot Chat ---
+(use-package copilot-chat
+  :ensure t
+  :commands (copilot-chat-display copilot-chat-ask))
+
+;; Leader keys for Copilot
+(with-eval-after-load 'evil
+  (when (boundp 'my-leader-keymap)
+    (define-key my-leader-keymap (kbd "c t") #'copilot-mode)           ;; toggle Copilot
+    (define-key my-leader-keymap (kbd "c a") #'copilot-accept-completion)
+    (define-key my-leader-keymap (kbd "c c") #'copilot-chat-display)   ;; open chat
+    (define-key my-leader-keymap (kbd "c ?") #'copilot-chat-ask)))     ;; ask a question
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
